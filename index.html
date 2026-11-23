@@ -29,6 +29,11 @@ a{color:inherit}
 section{padding:34px 0 6px}
 h2{font-size:24px;line-height:1.3;margin:0 0 14px;font-weight:700}
 p{margin:0 0 12px}
+#about{white-space:pre-line;margin-top:14px}#about[hidden]{display:none}
+.acc{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font:inherit;font-size:20px;font-weight:700;cursor:pointer}
+.acc::after{content:"+";font-size:26px;font-weight:300;color:var(--sun);transition:transform .2s}
+.acc[aria-expanded=true]::after{transform:rotate(45deg)}
+.acc:focus-visible{outline:2px solid var(--sun);outline-offset:3px}
 .muted{color:var(--muted);font-size:14px}
 .pkg{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:18px 0;border-top:1px solid var(--line)}
 .pkg:last-of-type{border-bottom:1px solid var(--line)}
@@ -52,6 +57,15 @@ details[open] summary::after{transform:rotate(45deg)}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 .bar{position:fixed;inset:auto 0 0 0;background:rgba(20,17,14,.92);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px))}
 .bar .btn{display:block;max-width:600px;margin:0 auto;text-align:center}
+#req{scroll-margin-top:12px}
+.fld{margin:0 0 14px}.fld label{display:block;font-size:14px;color:var(--muted);margin:0 0 6px}
+.fld select,.fld input,.fld textarea{width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:16px}
+.fld textarea{min-height:110px;resize:vertical}
+.fld select:focus-visible,.fld input:focus-visible,.fld textarea:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.fld select:disabled{opacity:.5}
+.note{background:var(--surface);border:1px solid var(--sun);border-radius:12px;padding:12px 14px;font-size:14px;margin:0 0 18px}
+.err{color:#ff8a6b;font-size:14px;min-height:22px;margin:0 0 8px}
+button.btn{border:0;font:inherit;font-weight:700;cursor:pointer;width:100%}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -65,9 +79,20 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 <nav class="soc" id="soc"></nav>
 </div></header>
 <main class="wrap">
-<section><h2 id="hAbout"></h2><p id="about"></p></section>
+<section><button class="acc" id="hAbout" type="button" aria-expanded="false" aria-controls="about"></button><p id="about" hidden></p></section>
 <section><h2 id="hMonthly"></h2><p class="muted" id="mNote"></p><div id="monthly"></div></section>
 <section><h2 id="hPrices"></h2><div id="prices"></div><p class="muted" id="pNote" style="margin-top:14px"></p></section>
+<section id="req"><h2 id="hReq"></h2><p class="note" id="rNote"></p>
+<div class="fld"><label id="lT" for="rT"></label><select id="rT"></select></div>
+<div class="fld"><label id="lS" for="rS"></label><select id="rS"></select></div>
+<div class="fld"><label id="lD" for="rD"></label><input type="date" id="rD"></div>
+<div class="fld"><label id="lD2" for="rD2"></label><input type="date" id="rD2"></div>
+<div class="fld"><label id="lX" for="rX"></label><textarea id="rX"></textarea></div>
+<div class="fld"><label id="lN" for="rN"></label><input type="text" id="rN" autocomplete="name"></div>
+<div class="fld"><label id="lB" for="rB"></label><input type="text" id="rB"></div>
+<div class="fld"><label id="lP" for="rP"></label><input type="text" id="rP"></div>
+<p class="err" id="rErr" role="alert"></p>
+<button class="btn" id="rSend" type="button"></button></section>
 <div class="cta"><h2 id="hBook"></h2><p id="bookTxt"></p><a class="btn" id="book2" target="_blank" rel="noopener"></a><nav class="soc" id="soc2"></nav></div>
 <footer id="foot"></footer>
 </main>
@@ -76,15 +101,15 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 var WA="218944226761";
 var SOC=[["Instagram","https://www.instagram.com/anas_al_hasy?evlk=MW9vNXd2OW04cjdsag=="],["TikTok","https://www.tiktok.com/@anas_al_hasy?_r=1&_t=ZS-9BearGTzDyk"],["Facebook","https://www.facebook.com/share/1dhKjrdzxa/"],["Telegram","https://t.me/anas_al_hasy"]];
 var UI={
-ar:{sw:"English",role:"مصوّر ومنتج محتوى تجاري",tag:"حوّل أفكارك إلى محتوى يجذب عملاءك",book:"احجز عبر واتساب",msg:"مرحبًا أنس، أريد الاستفسار عن الحجز",
-hAbout:"من أنا",about:"أنا أنس الحاسي، مصوّر ومنتج محتوى تجاري. أصوّر المنتجات والأطعمة والإعلانات، وأصنع ريلز وحملات افتتاح تجذب العملاء وتعطي علامتك حضورًا واضحًا.",
+ar:{ask:"اطلب خدمة",hReq:"اطلب خدمتك",rNote:"هذا طلب وليس حجزًا مؤكدًا. أراجع طلبك وأتواصل معك لتأكيد الموعد والسعر.",lT:"1. نوع الخدمة",lS:"2. الباقة أو الخدمة",lD:"3. الموعد المفضل",lD2:"موعد بديل (اختياري)",lX:"4. تفاصيل المشروع",lN:"الاسم",lB:"اسم النشاط (اختياري)",lP:"المكان (اختياري)",pick:"اختر…",send:"5. أرسل الطلب عبر واتساب",err:"أكمل الحقول المطلوبة: النوع، الخدمة، الموعد، الاسم.",derr:"اختر تاريخًا من اليوم فصاعدًا.",m0:"مرحبًا أنس، هذا طلب خدمة من الموقع (طلب وليس حجزًا مؤكدًا):",f1:"النوع",f2:"الخدمة",f3:"الموعد المفضل",f4:"موعد بديل",f5:"الاسم",f6:"النشاط",f7:"المكان",f8:"التفاصيل",sw:"English",role:"مصوّر ومنتج محتوى تجاري",tag:"حوّل أفكارك إلى محتوى يجذب عملاءك",book:"احجز عبر واتساب",msg:"مرحبًا أنس، أريد الاستفسار عن الحجز",
+hAbout:"من أنا",about:"أنا أنس الحاسي، صانع محتوى تجاري وتسويقي ومخرج سينمائي، بدأت رحلتي في المجال عام 2017، وطورت خلالها خبرتي في التصوير السينمائي، والإخراج، وصناعة الأفكار، والمونتاج.\n\nأؤمن أن المحتوى الناجح لا يعتمد على الصورة الجميلة فقط، بل على فكرة واضحة ورؤية إبداعية تخدم هدف المشروع وتعكس هوية العلامة التجارية.\n\nأعمل على تحويل الأفكار إلى أعمال بصرية مدروسة، تجمع بين الأسلوب السينمائي والتوجه التسويقي، لمختلف الأنشطة التجارية والعلامات التجارية.\n\nهدفي لا يقتصر على إنتاج محتوى لمرة واحدة، بل بناء شراكات إعلامية طويلة الأمد أكون فيها جزءًا من تطور العلامة التجارية وحضورها.",
 hMonthly:"الباقات الشهرية",mNote:"جميع الباقات تشمل إدارة الصفحة (نشر، تفاعل، متابعة)، وتصاميم تسويقية حسب احتياج الصفحة، وأفكار تسويقية وعروض.",
-hPrices:"قائمة الأسعار 2026",pNote:"السعر النهائي يُحدد بعد معرفة تفاصيل المشروع. الأسعار قابلة للتغيير حسب متطلبات الإنتاج، ومدة التسليم تختلف حسب حجم المشروع.",
+hPrices:"قائمة الأسعار",pNote:"السعر النهائي يُحدد بعد معرفة تفاصيل المشروع. الأسعار قابلة للتغيير حسب متطلبات الإنتاج، ومدة التسليم تختلف حسب حجم المشروع.",
 hBook:"للحجز تواصل معي",bookTxt:"أرسل لي نوع المشروع وموعد التصوير وأرد عليك بالتفاصيل.",cur:"د.ل",month:"شهريًا",foot:"أنس الحاسي، مصوّر ومنتج محتوى تجاري"},
-en:{sw:"العربية",role:"Commercial photographer & content creator",tag:"Turn your ideas into content that attracts customers.",book:"Book on WhatsApp",msg:"Hi Anas, I’d like to ask about booking",
-hAbout:"About",about:"I’m Anas Al-Hasy, a commercial photographer and content creator. I shoot products, food and ads, and produce reels and launch campaigns that bring in customers and give your brand a clear presence.",
+en:{ask:"Request a service",hReq:"Request your service",rNote:"This is a request, not a confirmed booking. I’ll review it and contact you to confirm the date and price.",lT:"1. Service type",lS:"2. Package or service",lD:"3. Preferred date",lD2:"Alternative date (optional)",lX:"4. Project details",lN:"Name",lB:"Business name (optional)",lP:"Location (optional)",pick:"Choose…",send:"5. Send request via WhatsApp",err:"Please fill in the required fields: type, service, date and name.",derr:"Choose a date from today onward.",m0:"Hi Anas, this is a service request from the website (a request, not a confirmed booking):",f1:"Type",f2:"Service",f3:"Preferred date",f4:"Alternative date",f5:"Name",f6:"Business",f7:"Location",f8:"Details",sw:"العربية",role:"Commercial photographer & content creator",tag:"Turn your ideas into content that attracts customers.",book:"Book on WhatsApp",msg:"Hi Anas, I’d like to ask about booking",
+hAbout:"About",about:"I’m Anas Al-Hasy, a commercial and marketing content creator and cinematic director. I started my journey in the field in 2017, and since then I’ve built my expertise in cinematic filming, directing, idea development and editing.\n\nI believe successful content doesn’t rely on a beautiful image alone, but on a clear idea and a creative vision that serves the project’s goal and reflects the brand’s identity.\n\nI turn ideas into carefully crafted visual work that blends a cinematic style with a marketing mindset, for all kinds of businesses and brands.\n\nMy goal isn’t to produce one-off content, but to build long-term media partnerships where I’m part of the brand’s growth and presence.",
 hMonthly:"Monthly packages",mNote:"Every package includes page management (posting, engagement, follow-up), marketing designs as your page needs, and marketing ideas and offers.",
-hPrices:"Price list 2026",pNote:"The final price is set once the project details are known. Prices may change with production requirements, and delivery time depends on project size.",
+hPrices:"Price list",pNote:"The final price is set once the project details are known. Prices may change with production requirements, and delivery time depends on project size.",
 hBook:"To book, get in touch",bookTxt:"Send me your project type and shoot date, and I’ll reply with the details.",cur:"LYD",month:"per month",foot:"Anas Al-Hasy, commercial photographer & content creator"}};
 var MONTHLY=[
 {n:["الباقة الأساسية","Basic"],p:"1,200",d:["6 ريلز شهريًا (ريل كل أسبوع) و 8 صور احترافية","6 reels a month (1 a week) and 8 professional photos"]},
@@ -114,7 +139,7 @@ var CATS=[
 {n:["3 ريلز","3 reels"],p:"2,200"},{n:["5 ريلز","5 reels"],p:"3,500"},{n:["10 ريلز","10 reels"],p:"6,000",d:["الباقات قابلة للتخصيص حسب عدد أيام التصوير ومستوى الإنتاج","Packages can be customized by number of shoot days and production level"]}]},
 {n:["إضافات","Add-ons"],i:[
 {n:["ساعة تصوير إضافية","Extra shooting hour"],p:"250"},{n:["ريل إضافي","Additional reel"],p:"700 – 1,000"},{n:["تعديل إضافي","Additional revision"],p:"100"},
-{n:["تصوير بالدرون","Drone shooting"],t:["حسب المشروع","Per project"]},{n:["تسليم مستعجل","Urgent delivery"],t:["رسوم إضافية","Extra fee"]},{n:["خارج المدينة","Outside the city"],t:["حسب المسافة","By distance"]}]}];
+{n:["تصوير بالدرون","Drone shooting"],t:["حسب المشروع","Per project"]},{n:["تسليم مستعجل","Urgent delivery"],t:["رسوم إضافية 35%","Extra fee 35%"]},{n:["خارج المدينة","Outside the city"],t:["حسب المسافة","By distance"]}]}];
 var L="ar";
 function $(i){return document.getElementById(i)}
 function wa(){return "https://wa.me/"+WA+"?text="+encodeURIComponent(UI[L].msg)}
@@ -125,6 +150,8 @@ document.documentElement.lang=L;document.documentElement.dir=L=="ar"?"rtl":"ltr"
 $("lang").textContent=u.sw;$("role").textContent=u.role;$("tag").textContent=u.tag;
 ["hAbout","about","hMonthly","mNote","hPrices","pNote","hBook","bookTxt","foot"].forEach(function(i){$(i).textContent=u[i=="foot"?"foot":i]});
 ["book1","book2","book3"].forEach(function(i){var a=$(i);a.textContent=u.book;a.href=wa()});
+["book1","book3"].forEach(function(i){var a=$(i);a.textContent=u.ask;a.href="#req";a.removeAttribute("target")});
+renderReq();
 $("soc").innerHTML=socials();$("soc2").innerHTML=socials();
 $("monthly").innerHTML=MONTHLY.map(function(m){return '<div class="pkg"><h3>'+m.n[k]+'</h3><div class="pr">'+m.p+'<small>'+u.cur+' '+u.month+'</small></div><div class="d">'+m.d[k]+'</div></div>'}).join("");
 $("prices").innerHTML=CATS.map(function(c,ci){return '<details'+(ci==0?' open':'')+'><summary>'+c.n[k]+'</summary>'+c.i.map(function(x){
@@ -132,6 +159,31 @@ var v=x.t?x.t[k]:x.p+' <small class="muted">'+u.cur+(x.u?' / '+x.u[k]:'')+'</sma
 return '<div class="it"><b>'+x.n[k]+'</b><span class="v">'+v+'</span>'+(x.d?'<span class="d">'+x.d[k]+'</span>':'')+'</div>'}).join("")+'</details>'}).join("");
 }
 $("lang").addEventListener("click",function(){L=L=="ar"?"en":"ar";render()});
+function today(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+function types(){return CATS.map(function(c){return {n:c.n,i:c.i.map(function(x){return {n:x.n,v:x.t?x.t:[x.p+" "+UI.ar.cur,x.p+" "+UI.en.cur]}})}}).concat([{n:[UI.ar.hMonthly,UI.en.hMonthly],i:MONTHLY.map(function(m){return {n:m.n,v:[m.p+" "+UI.ar.cur+" "+UI.ar.month,m.p+" "+UI.en.cur+" "+UI.en.month]}})}])}
+function opts(a,ph){return '<option value="">'+ph+'</option>'+a.map(function(o,i){return '<option value="'+i+'">'+o+'</option>'}).join("")}
+function fillS(){var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,T=types();
+$("rS").innerHTML=opts(ti===""?[]:T[ti].i.map(function(x){return x.n[k]+" · "+x.v[k]}),u.pick);$("rS").disabled=ti===""}
+function renderReq(){var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,si=$("rS").value;
+["hReq","rNote","lT","lS","lD","lD2","lX","lN","lB","lP"].forEach(function(i){$(i).textContent=u[i]});
+$("rSend").textContent=u.send;
+$("rT").innerHTML=opts(types().map(function(t){return t.n[k]}),u.pick);$("rT").value=ti;
+fillS();$("rS").value=si;
+$("rD").min=today();$("rD2").min=today()}
+$("rT").addEventListener("change",fillS);
+$("rSend").addEventListener("click",function(){
+var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,si=$("rS").value,d=$("rD").value,n=$("rN").value.trim(),e=$("rErr");
+if(ti===""||si===""||!d||!n){e.textContent=u.err;return}
+if(d<today()||($("rD2").value&&$("rD2").value<today())){e.textContent=u.derr;return}
+e.textContent="";
+var t=types()[ti],x=t.i[si],a=[u.m0,"",u.f1+": "+t.n[k],u.f2+": "+x.n[k]+" ("+x.v[k]+")",u.f3+": "+d];
+if($("rD2").value)a.push(u.f4+": "+$("rD2").value);
+a.push(u.f5+": "+n);
+if($("rB").value.trim())a.push(u.f6+": "+$("rB").value.trim());
+if($("rP").value.trim())a.push(u.f7+": "+$("rP").value.trim());
+if($("rX").value.trim())a.push(u.f8+": "+$("rX").value.trim());
+window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(a.join("\n")),"_blank","noopener")});
+$("hAbout").addEventListener("click",function(){var o=$("about").hidden;$("about").hidden=!o;this.setAttribute("aria-expanded",o)});
 render();
 </script>
 </body>
