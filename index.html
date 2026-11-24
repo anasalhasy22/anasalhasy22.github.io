@@ -92,6 +92,42 @@ html[dir=ltr] .portrait{float:left;margin:4px 16px 12px 0}
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .gal figure{margin:0}
 .gal figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.4}
+@media (min-width:900px){
+.wrap{max-width:1180px;padding:0 48px}
+.tabs{justify-content:center;gap:14px;padding:12px 48px}
+.tabsIn{flex:0 1 auto;gap:8px;overflow:visible}
+.tab{font-size:16px;padding:9px 20px}
+.tabs .lang{font-size:14px;padding:8px 18px}
+.tab.off small{font-size:11px}
+.hero{padding:28px 0 64px}
+.logo{width:min(40%,440px);margin:28px auto 22px}
+.role{font-size:24px}
+.tag{font-size:18px;margin:8px 0 32px}
+.btn{padding:15px 40px;font-size:17px}
+section{padding:48px 0 10px}
+h2{font-size:30px;margin-bottom:18px}
+#req{max-width:860px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:1fr 1fr;column-gap:20px;align-items:start}
+#req>h2,#req>.note,#req>.err,#req>button,#req>.fld:nth-of-type(5){grid-column:1/-1}
+#req>.note{max-width:none}
+#monthly{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+#monthly .pkg{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+#monthly .pkg:last-of-type{border-bottom:1px solid var(--line)}
+#monthly .pr{order:3;text-align:start;margin-top:10px;grid-row:auto;grid-column:auto}
+#monthly .pkg .d{order:2}
+#prices{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+#prices details{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 22px}
+#prices details:last-of-type{border-bottom:1px solid var(--line)}
+.portrait{width:34%;margin:4px 0 16px 32px}
+html[dir=ltr] .portrait{margin:4px 32px 16px 0}
+#about{font-size:18px;line-height:1.9}
+.gal{gap:18px}
+.gal figcaption{font-size:14px}
+#clist{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cbtn{margin:0;padding:22px 24px;font-size:18px}
+.cbtn .ci svg{width:26px;height:26px}
+.cta{padding:40px}
+.bar .btn{max-width:420px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
