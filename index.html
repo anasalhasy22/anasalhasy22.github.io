@@ -293,6 +293,7 @@ body.lock{overflow:hidden}
 .tw-pre{visibility:hidden}
 .tw-on{border-inline-end:1.5px solid var(--sun);margin-inline-end:-1.5px;animation:twb 1s steps(1) infinite}
 @keyframes twb{50%{border-color:transparent}}
+#rWa[hidden]{display:none}#rWa{margin-top:10px;background:transparent;color:var(--ink);border:1px solid var(--line)}#tsBox{min-height:65px}#rOk{font-weight:700}
 </style>
 </head>
 <body>
@@ -341,14 +342,24 @@ body.lock{overflow:hidden}
 <div class="fld"><label id="lD2" for="rD2"></label><input type="date" id="rD2"></div>
 <div class="fld"><label id="lX" for="rX"></label><textarea id="rX"></textarea></div>
 <div class="fld"><label id="lN" for="rN"></label><input type="text" id="rN" autocomplete="name"></div>
+<div class="fld"><label id="lPh" for="rPh"></label><input type="tel" id="rPh" inputmode="tel" autocomplete="tel" dir="ltr"></div>
 <div class="fld"><label id="lB" for="rB"></label><input type="text" id="rB"></div>
 <div class="fld"><label id="lP" for="rP"></label><input type="text" id="rP"></div>
+<div class="fld" id="tsBox"></div>
 <p class="err" id="rErr" role="alert"></p>
-<button class="btn" id="rSend" type="button"></button></section></div></div>
+<p class="note" id="rOk" role="status"></p>
+<button class="btn" id="rSend" type="button"></button>
+<button class="btn" id="rWa" type="button" hidden></button></section></div></div>
 <main class="wrap"><footer id="foot">أنس الحاسي، مصوّر ومنتج محتوى تجاري</footer></main>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <script>
 var WA="218944226761";
+var API="https://hjygltswbmvbzimizhlj.supabase.co/functions/v1/submit-request",TSK="0x4AAAAAAGT8iq7N9PT835fq";
+var RQ={ar:{lPh:"رقم الهاتف",send:"5. أرسل الطلب",wa:"إرسال الطلب عبر واتساب بدلاً من ذلك",ph:"الهاتف",needPh:"أدخل رقم هاتف صحيحاً للتواصل معك.",needTs:"أكمل التحقق الأمني أولاً.",busy:"جارٍ الإرسال…",ok:"تم استلام طلبك. رقم الطلب: ",ok2:"تم استلام طلبك.",cap:"تعذر التحقق الأمني. أعد المحاولة.",rate:"تم إرسال طلبات كثيرة. حاول لاحقاً أو أرسل عبر واتساب.",down:"الخدمة غير متاحة حالياً. بياناتك محفوظة في النموذج، يمكنك الإرسال عبر واتساب.",e_name:"تحقق من الاسم.",e_phone:"رقم الهاتف غير صحيح.",e_date:"تحقق من التواريخ المختارة.",e_gen:"تحقق من بيانات الطلب وأعد المحاولة."},en:{lPh:"Phone number",send:"5. Send request",wa:"Send via WhatsApp instead",ph:"Phone",needPh:"Enter a valid phone number so I can reach you.",needTs:"Complete the security check first.",busy:"Sending…",ok:"Your request was received. Request number: ",ok2:"Your request was received.",cap:"Security check failed. Please try again.",rate:"Too many requests. Try later or send via WhatsApp.",down:"The service is unavailable right now. Your details are kept in the form; you can send via WhatsApp.",e_name:"Check the name.",e_phone:"The phone number is not valid.",e_date:"Check the selected dates.",e_gen:"Check the request details and try again."}};
+var tsId=null,lastWa="",busy=false;
+function tsRender(){if(tsId!==null||!window.turnstile)return;tsId=window.turnstile.render("#tsBox",{sitekey:TSK,action:"submit_request",language:"auto"})}
+if("IntersectionObserver"in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){var t=setInterval(function(){if(window.turnstile){clearInterval(t);tsRender()}},200)}}).observe(document.getElementById("tsBox"))}
 var SOC=[["Instagram","https://www.instagram.com/anas_al_hasy?evlk=MW9vNXd2OW04cjdsag=="],["TikTok","https://www.tiktok.com/@anas_al_hasy?_r=1&_t=ZS-9BearGTzDyk"],["Facebook","https://www.facebook.com/share/1dhKjrdzxa/"],["Telegram","https://t.me/anas_al_hasy"]];
 var UI={
 ar:{nCard:"البطاقة الرقمية",hCard:"البطاقة الرقمية",cardAdd:"حفظ في جهات الاتصال",cardShare:"مشاركة البطاقة",cardWeb:"زيارة الموقع",cardPf:"الأعمال",cardSoon:"قريبًا",cardScan:"امسح لفتح البطاقة",cardCopied:"تم نسخ الرابط",ctaT:"لديك مشروع يستحق الظهور؟",ctaD:"دعنا نصنع محتوى يعكس هوية مشروعك ويصل برسالتك إلى جمهورك.",ctaB:"اطلب خدمتك الآن",closeL:"إغلاق",menu:"القائمة",hwTitle:"كيف تتحول فكرتك إلى محتوى؟",hwDesc:"أعمل وفق خطوات واضحة ومنظمة، تبدأ بفهم احتياجات مشروعك وتنتهي بتسليم محتوى جاهز للاستخدام والنشر.",hk1:"المرحلة الأولى",hs1:"استقبال الطلب",hd1:"نتعرف على نشاطك التجاري واحتياجاتك ونوع المحتوى الذي تبحث عنه.",hk2:"المرحلة الثانية",hs2:"التخطيط والإعداد",hd2:"نحدد الفكرة والأسلوب البصري ونضع تصوراً مناسباً لأهداف المشروع.",hk3:"المرحلة الثالثة",hs3:"الإنتاج والتنفيذ",hd3:"ننتقل إلى التصوير والإنتاج والمونتاج وفق التصور المتفق عليه.",hk4:"المرحلة الرابعة",hs4:"التسليم النهائي",hd4:"تسليم المحتوى بالصيغة والجودة المتفق عليها، ليكون جاهزاً للاستخدام والنشر.",hwEnd:"من الفكرة إلى التنفيذ، بخطوات واضحة.",hGal:"خلف الكاميرا",cap1:"المونتاج",cap2:"التصوير الميداني",cap3:"كواليس الإنتاج",alt0:"أنس الحاسي، مصوّر ومنتج محتوى تجاري ومخرج سينمائي",alt1:"أنس الحاسي أثناء مونتاج الفيديو على شاشة الكمبيوتر في مكتب العمل",alt2:"أنس الحاسي يصوّر بكاميرا سينمائية على جيمبل داخل ملعب",alt3:"كاميرا على حامل مع إضاءة سوفت بوكس وخلفية خضراء في استوديو تصوير",hContact:"تواصل معي",cText:"اختر التطبيق الذي يناسبك، وسأرد عليك في أقرب وقت.",nHome:"الرئيسية",nAbout:"من أنا",nHow:"آلية العمل",nPrices:"الأسعار",nWork:"الأعمال",nSoon:"قريبًا",nContact:"تواصل",ask:"اطلب خدمة",hReq:"اطلب خدمتك",rNote:"هذا طلب وليس حجزًا مؤكدًا. أراجع طلبك وأتواصل معك لتأكيد الموعد والسعر.",lT:"1. نوع الخدمة",lS:"2. الباقة أو الخدمة",lD:"3. الموعد المفضل",lD2:"موعد بديل (اختياري)",lX:"4. تفاصيل المشروع",lN:"الاسم",lB:"اسم النشاط (اختياري)",lP:"المكان (اختياري)",pick:"اختر…",send:"5. أرسل الطلب عبر واتساب",err:"أكمل الحقول المطلوبة: النوع، الخدمة، الموعد، الاسم.",derr:"اختر تاريخًا من اليوم فصاعدًا.",m0:"مرحباً أنس، لديك طلب خدمة جديد من موقعك الإلكتروني.",mh1:"تفاصيل الطلب",mh2:"بيانات العميل",mh3:"تفاصيل المشروع",f1:"نوع الخدمة",f2:"الخدمة",f3:"الموعد المفضل",f4:"موعد بديل",f5:"الاسم",f6:"اسم النشاط",f7:"المكان",f8:"التفاصيل",sw:"English",role:"مصوّر ومنتج محتوى تجاري",tag:"نحوّل الأفكار إلى محتوى يصنع التأثير ويجذب العملاء",book:"احجز عبر واتساب",msg:"مرحبًا أنس، أريد الاستفسار عن الحجز",
@@ -467,23 +478,42 @@ function fillS(){var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,T=types();
 $("rS").innerHTML=opts(ti===""?[]:T[ti].i.map(function(x){return x.n[k]+" · "+x.v[k]}),u.pick);$("rS").disabled=ti===""}
 function renderReq(){var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,si=$("rS").value;
 ["hReq","rNote","lT","lS","lD","lD2","lX","lN","lB","lP"].forEach(function(i){$(i).textContent=u[i]});
-$("rSend").textContent=u.send;
+$("rSend").textContent=RQ[L].send;$("lPh").textContent=RQ[L].lPh;$("rWa").textContent=RQ[L].wa;
 $("rT").innerHTML=opts(types().map(function(t){return t.n[k]}),u.pick);$("rT").value=ti;
 fillS();$("rS").value=si;
 $("rD").min=today();$("rD2").min=today()}
 $("rT").addEventListener("change",fillS);
 $("rSend").addEventListener("click",function(){
 var u=UI[L],k=L=="ar"?0:1,ti=$("rT").value,si=$("rS").value,d=$("rD").value,n=$("rN").value.trim(),e=$("rErr");
+if(busy)return;
 if(ti===""||si===""||!d||!n){e.textContent=u.err;return}
+var ph=$("rPh").value.trim();if(ph.replace(/\D/g,"").length<8){e.textContent=RQ[L].needPh;return}
 if(d<today()||($("rD2").value&&$("rD2").value<today())){e.textContent=u.derr;return}
 e.textContent="";
 var t=types()[ti],x=t.i[si],a=[u.m0,"","*"+u.mh1+"*","• "+u.f1+": "+t.n[k],"• "+u.f2+": "+x.n[k]+" ("+x.v[k]+")","• "+u.f3+": "+d];
 if($("rD2").value)a.push("• "+u.f4+": "+$("rD2").value);
-a.push("","*"+u.mh2+"*","• "+u.f5+": "+n);
+a.push("","*"+u.mh2+"*","• "+u.f5+": "+n,"• "+RQ[L].ph+": "+ph);
 if($("rB").value.trim())a.push("• "+u.f6+": "+$("rB").value.trim());
 if($("rP").value.trim())a.push("• "+u.f7+": "+$("rP").value.trim());
 if($("rX").value.trim())a.push("","*"+u.mh3+"*",$("rX").value.trim());
-window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(a.join("\n")),"_blank","noopener")});
+lastWa="https://wa.me/"+WA+"?text="+encodeURIComponent(a.join("\n"));
+var tok=(window.turnstile&&tsId!==null)?window.turnstile.getResponse(tsId):"";
+if(!tok){e.textContent=RQ[L].needTs;return}
+var R=RQ[L],ok=$("rOk"),wb=$("rWa"),sb=$("rSend");
+ok.textContent="";wb.hidden=true;busy=true;sb.disabled=true;sb.textContent=R.busy;
+var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},20000);
+fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},signal:ctl.signal,body:JSON.stringify({customer_name:n,phone:ph,service_type:t.n[0],service_name:x.n[0],preferred_date:d,alt_date:$("rD2").value||null,details:$("rX").value.trim()||null,business_name:$("rB").value.trim()||null,location:$("rP").value.trim()||null,email:null,budget:null,turnstile_token:tok})})
+.then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {s:r.status,j:j}})})
+.catch(function(){return {s:0,j:{}}})
+.then(function(o){clearTimeout(tm);var s=o.s,j=o.j||{};
+if(s===200||s===201){ok.textContent=j.request_no?R.ok+j.request_no:R.ok2;["rD","rD2","rX","rN","rB","rP","rPh"].forEach(function(i){$(i).value=""});$("rT").value="";fillS()}
+else if(s===403){e.textContent=R.cap}
+else if(s===422){var c=j.error||"";e.textContent=c==="invalid_phone"?R.e_phone:c==="invalid_name"?R.e_name:/date/.test(c)?R.e_date:R.e_gen}
+else if(s===429){e.textContent=R.rate;wb.hidden=false}
+else{e.textContent=R.down;wb.hidden=false}
+}).then(function(){busy=false;sb.disabled=false;sb.textContent=RQ[L].send;if(window.turnstile&&tsId!==null)window.turnstile.reset(tsId)});
+});
+$("rWa").addEventListener("click",function(){if(lastWa)window.open(lastWa,"_blank","noopener")});
 $("hAbout").addEventListener("click",function(){var o=$("about").hidden;$("about").hidden=!o;this.setAttribute("aria-expanded",o)});
 if("IntersectionObserver"in window){document.documentElement.classList.add("js");var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.15,rootMargin:"0px 0px -6% 0px"});document.querySelectorAll(".rv").forEach(function(el){io.observe(el)})}
 $("burger").addEventListener("click",function(){menu(!document.querySelector(".tabs").classList.contains("open"))});
